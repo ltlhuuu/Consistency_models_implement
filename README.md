@@ -22,9 +22,9 @@ Before we use the consistency model, we should train the consistency model. Spec
 
 Afterwards, we train the consistency model by minimizing its output differences on the pair $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$. This motivates our following consistency distillation loss for training consistency models. The consistency distillation loss is defined as:
 
-<center>
+<p align="center">
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/1265fcac-fb4d-46db-ad64-ee999bb72467" width="500">
-</center>
+</p>
 
 ```python
 def loss(self, state, action, z, t1, t2, ema_model=None, weights=torch.tensor(1.0)):
