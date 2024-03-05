@@ -15,3 +15,6 @@ There are some different design choices between the original consistency model a
 
 ## Sampling
 starting from an initial random noise $\hat{x]_{t_{max}}\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single step: $\hat{x}_{t_{min} = f_\theta(x_{t_{max}},t_{max})$. For iterative refinement, the following algorithm can be used:
+```python
+def sample():
+```
