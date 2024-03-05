@@ -14,9 +14,13 @@ There are some different design choices between the original consistency model a
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
 
 ## Sampling
-Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$ , the consistency model can be used to sample a point in a single step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. For iterative refinement, the following algorithm can be used:
+Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single-step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. Importantly, one can also evaluate the consistency model multiple times by alternating denoising and noise injection steps for improved sample quality. Summarized in Algorithm 1, this multistep sampling procedure provides the flexibility to trade compute for sample quality. It also has important applications in zero-shot data editing. In practice, we find time points in Algorithm 1 with a greedy algorithm, where the time points are pinpointed one at a time using ternary search to optimize the FID of samples obtained from Algorithm 1. This assumes that given prior time points, the FID is a unimodal function of the next time point. We find this assumption to hold empirically in our experiments, and leave the exploration of better strategies as future work.
+For iterative refinement, the following algorithm can be used:
+![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/e158bee8-2601-41d0-939d-20f8118601d8)
+
 ```python
-def sample(state):
+
+def sample(self, state):
     ts = list(reversed(self.t_seq))
     action_shape = list(state.shape)
     action_shape[-1] = self.action_dim
@@ -35,4 +39,22 @@ def sample(state):
 
     action.clamp_(-self.max_action, self.max_action)
     return action
+
+def predict_consistency(self, state, action, t) -> torch.Tensor:
+    if isinstance(t, float):
+        t = (
+            torch.Tensor([t] * action.shape[0], dtype=torch.float32).to(action.device).unsqueeze(1)
+        )
+    action_ori = action
+    action = self.model(action, t, state)
+
+    sigma_data = torch.Tensor(0.5)
+    t_ = t - self.eps
+    c_skip_t = sigma_data.pow(2) / (t_.pow(2) + sigma_data.pow(2))
+    c_out_t = sigma_data * t_ / (sigma_data.pow(2) + t.pow(2)).pow(0.5)
+
+    output = c_skip_t * action_ori + c_out_t * action
+    if self.action_norm:
+        output = self.max_action * torch.tanh(output)
+    return output
 ```
