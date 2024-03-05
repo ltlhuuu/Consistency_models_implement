@@ -16,9 +16,9 @@ There are some different design choices between the original consistency model a
 ## Train the consistency model
 Before we use the consistency model, we should train the consistency model. Specifically, given a data point $x$, we can generate a pair of adjacent data points $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$ on the PF ODE trajectory efficiently by sampling $x$ from the dataset, followed by sampling $x_{t_{n+1}}$ from the transition density of the SDE $\mathcal N(x, t^2_{n+1}I)$, and then computing $\hat{x}^\phi_{t_{n}}$ using one discretization step of the numerical ODE solver according to: 
 
-<center>
+<p align="center">
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/fc7d1102-679b-4446-a8c3-590517039c95" width="500">
-</center>
+</p>
 
 Afterwards, we train the consistency model by minimizing its output differences on the pair $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$. This motivates our following consistency distillation loss for training consistency models. The consistency distillation loss is defined as:
 
@@ -50,9 +50,9 @@ def loss(self, state, action, z, t1, t2, ema_model=None, weights=torch.tensor(1.
 Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single-step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. Importantly, one can also evaluate the consistency model multiple times by alternating denoising and noise injection steps for improved sample quality. Summarized in Algorithm 1, this multistep sampling procedure provides the flexibility to trade compute for sample quality.
 For iterative refinement, the following algorithm can be used:
 
-<center>
+<p align="center">
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/3b0f4d0d-f042-4abe-a3ba-d5eaa4ba795b" width="500">
-</center>
+</p>
 
 
 
