@@ -8,7 +8,7 @@ Consistency Models are a new family of generative models that achieve high sampl
 
 > **Note**: The library is the code base for implementing consistency models. It can be used to train all kinds of consistency models.
 
-## Different design chices
+## Different design choices
 
 There are some different design choices between the original consistency model and the improved CT,
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
