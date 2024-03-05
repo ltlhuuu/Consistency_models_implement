@@ -14,7 +14,25 @@ There are some different design choices between the original consistency model a
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
 
 ## Sampling
-starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$ , the consistency model can be used to sample a point in a single step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. For iterative refinement, the following algorithm can be used:
+Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$ , the consistency model can be used to sample a point in a single step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. For iterative refinement, the following algorithm can be used:
 ```python
-def sample():
+def sample(state):
+    ts = list(reversed(self.t_seq))
+    action_shape = list(state.shape)
+    action_shape[-1] = self.action_dim
+    action = torch.randn(action_shape).to(device=state.device) * self.max_T
+    if self.action_norm:
+        action = self.max_action * torch.tanh(action)
+
+    action = self.predict_consistency(state, action, ts[0])
+
+    for t in ts[1:]:
+        z = torch.randn_like(action)
+        action = action + z * math.sqrt(t**2 - self.eps**2)
+        if self.action_norm:
+            action = self.max_action * torch.tanh(action)
+        action = self.predict_consistency(state, action, t)
+
+    action.clamp_(-self.max_action, self.max_action)
+    return action
 ```
