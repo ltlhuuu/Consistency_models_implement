@@ -14,15 +14,18 @@ There are some different design choices between the original consistency model a
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
 
 ## Train the consistency model
-Before we use the consistency model, we should train the consistency model. Specifically, given a data point $x$, we can generate a pair of adjacement data points $(\hat{x}^\phi_{t_{n}},$x_{t_{n+1}})$ on the PF ODE trajectory efficiently by sampling $x$ from the dataset, followed by sampling $x_{t_{n+1}$ from the transition density of the SDE $\mathcal N(x, t^2_{n+1}I)$, and then computing $\hat{x}^\phi_{t_{n}}$ using one discretization step of the numerical ODE solver according to: 
+Before we use the consistency model, we should train the consistency model. Specifically, given a data point $x$, we can generate a pair of adjacent data points $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$ on the PF ODE trajectory efficiently by sampling $x$ from the dataset, followed by sampling $x_{t_{n+1}}$ from the transition density of the SDE $\mathcal N(x, t^2_{n+1}I)$, and then computing $\hat{x}^\phi_{t_{n}}$ using one discretization step of the numerical ODE solver according to: 
+
 <center>
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/fc7d1102-679b-4446-a8c3-590517039c95" width="500">
 </center>
-Afterwards, we train the consistency model by minimizing its output differences on the pair $(\hat{x}^\phi_{t_{n}},$x_{t_{n+1}})$. This motivates our following consistency distillation loss for training consistency models. The consistency distillation loss is defined as:
+
+Afterwards, we train the consistency model by minimizing its output differences on the pair $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$. This motivates our following consistency distillation loss for training consistency models. The consistency distillation loss is defined as:
 
 <center>
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/1265fcac-fb4d-46db-ad64-ee999bb72467" width="500">
 </center>
+
 ```python
 def loss(self, state, action, z, t1, t2, ema_model=None, weights=torch.tensor(1.0)):
     x2 = action + z * t2
