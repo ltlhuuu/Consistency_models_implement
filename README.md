@@ -12,3 +12,6 @@ Consistency Models are a new family of generative models that achieve high sampl
 
 There are some different design choices between the original consistency model and the improved CT in the paper ["Improved techniques for training consistency models"](https://arxiv.org/abs/2310.14189).
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
+
+## Sampling
+starting from an initial random noise $\hat{x]_{t_{max}}\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single step: $\hat{x}_{t_{min} = f_\theta(x_{t_{max}},t_{max})$. For iterative refinement, the following algorithm can be used:
