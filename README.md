@@ -11,7 +11,10 @@ Consistency Models are a new family of generative models that achieve high sampl
 ## Different design choices
 
 There are some different design choices between the original consistency model and the improved CT in the paper ["Improved techniques for training consistency models"](https://arxiv.org/abs/2310.14189).
-![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
+
+<p align="center">
+  <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501" width="500">
+</p>
 
 ## Train the consistency model
 Before we use the consistency model, we should train the consistency model. Specifically, given a data point $x$, we can generate a pair of adjacent data points $(\hat{x}^\phi_{t_{n}},$ $x_{t_{n+1}})$ on the PF ODE trajectory efficiently by sampling $x$ from the dataset, followed by sampling $x_{t_{n+1}}$ from the transition density of the SDE $\mathcal N(x, t^2_{n+1}I)$, and then computing $\hat{x}^\phi_{t_{n}}$ using one discretization step of the numerical ODE solver according to: 
