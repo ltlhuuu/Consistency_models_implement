@@ -14,9 +14,11 @@ There are some different design choices between the original consistency model a
 ![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/38dbee6e-f4f4-420a-94a5-df32a2b4b501)
 
 ## Sampling
-Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single-step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. Importantly, one can also evaluate the consistency model multiple times by alternating denoising and noise injection steps for improved sample quality. Summarized in Algorithm 1, this multistep sampling procedure provides the flexibility to trade compute for sample quality. It also has important applications in zero-shot data editing. In practice, we find time points in Algorithm 1 with a greedy algorithm, where the time points are pinpointed one at a time using ternary search to optimize the FID of samples obtained from Algorithm 1. This assumes that given prior time points, the FID is a unimodal function of the next time point. We find this assumption to hold empirically in our experiments, and leave the exploration of better strategies as future work.
+Starting from an initial random noise $x_{t_{max}}$ $\sim \mathcal N(0,t^2_{max}I)$, the consistency model can be used to sample a point in a single-step: $x_{t_{min}}$ $= f_\theta$ $(x_{t_{max}},t_{max})$. Importantly, one can also evaluate the consistency model multiple times by alternating denoising and noise injection steps for improved sample quality. Summarized in Algorithm 1, this multistep sampling procedure provides the flexibility to trade compute for sample quality.
 For iterative refinement, the following algorithm can be used:
-![image](https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/e158bee8-2601-41d0-939d-20f8118601d8)
+<img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/3b0f4d0d-f042-4abe-a3ba-d5eaa4ba795b" width="500">
+
+
 
 ```python
 
