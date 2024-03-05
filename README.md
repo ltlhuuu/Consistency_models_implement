@@ -55,10 +55,9 @@ For iterative refinement, the following algorithm can be used:
 
 <p align="center">
   <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/3b0f4d0d-f042-4abe-a3ba-d5eaa4ba795b" width="500">
+  <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/cf31ef72-274b-4a2b-b0db-2565d7881f0d" width="1000">
+  <img src="https://github.com/ltlhuuu/Consistency_models_implement/assets/70466570/58001013-d06a-4c18-b6ba-169f2ba938a7" width="1000">
 </p>
-
-
-
 
 ```python
 
